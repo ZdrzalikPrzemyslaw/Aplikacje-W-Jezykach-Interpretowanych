@@ -10,7 +10,13 @@ var todo_item = /** @class */ (function () {
 }());
 var todoList = [];
 var initList = function () {
-    todoList.push(new todo_item("Learn JS", "Create a demo application for my TODO's", "445", new Date(2019, 10, 16)), new todo_item("Lecture Test", "Quick test from the first three lectures", "F6", new Date(2019, 10, 17)));
+    var savedList = window.localStorage.getItem("todos");
+    if (savedList != null) {
+        todoList = JSON.parse(savedList);
+    }
+    else {
+        todoList.push(new todo_item("Learn JS", "Create a demo application for my TODO's", "445", new Date(2019, 10, 16)), new todo_item("Lecture Test", "Quick test from the first three lectures", "F6", new Date(2019, 10, 17)));
+    }
 };
 initList();
 var updateTodoList = function () {
@@ -22,20 +28,27 @@ var updateTodoList = function () {
     while (todoListDiv.firstChild) {
         todoListDiv.removeChild(todoListDiv.firstChild);
     }
-    //add all elements
+
+    var filterInput = document.getElementById("inputSearch");
+    // add all elements
     for (var todo in todoList) {
-        var newDeleteButton = document.createElement("input");
-        newDeleteButton.type = "button";
-        newDeleteButton.value = "x";
-        newDeleteButton.addEventListener("click", function (index) {
-            deleteTodo(index);
-            updateTodoList();
-        });
-        var newElement = document.createElement("div");
-        var newContent = document.createTextNode(todoList[todo].title + " " + todoList[todo].description);
-        newElement.appendChild(newContent);
-        newElement.appendChild(newDeleteButton);
-        todoListDiv.appendChild(newElement);
+        if ((filterInput.value == "") ||
+            (todoList[todo].title.includes(filterInput.value)) ||
+            (todoList[todo].description.includes(filterInput.value))) {
+            var newDeleteButton = document.createElement("input");
+            newDeleteButton.type = "button";
+            newDeleteButton.value = "x";
+            newDeleteButton.addEventListener("click", function (index) {
+                deleteTodo(index);
+                updateTodoList();
+            });
+            var newElement = document.createElement("p");
+            var newContent = document.createTextNode(todoList[todo].title + " " +
+                todoList[todo].description);
+            newElement.appendChild(newContent);
+            todoListDiv.appendChild(newElement);
+            newElement.appendChild(newDeleteButton);
+        }
     }
 };
 var addTodo = function () {
@@ -46,5 +59,6 @@ var addTodo = function () {
     var newTodo = new todo_item(inputTitle, inputDescription, inputPlace, new Date(inputDate));
     todoList.push(newTodo);
     updateTodoList();
+    window.localStorage.setItem("todos", JSON.stringify(todoList));
 };
 setInterval(updateTodoList, 1000);
