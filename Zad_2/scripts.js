@@ -14,6 +14,9 @@ var initList = function () {
 };
 initList();
 var updateTodoList = function () {
+    var deleteTodo = function (index) {
+        todoList.splice(index, 1);
+    };
     var todoListDiv = document.getElementById("todoListView");
     //remove all elements
     while (todoListDiv.firstChild) {
@@ -21,9 +24,17 @@ var updateTodoList = function () {
     }
     //add all elements
     for (var todo in todoList) {
+        var newDeleteButton = document.createElement("input");
+        newDeleteButton.type = "button";
+        newDeleteButton.value = "x";
+        newDeleteButton.addEventListener("click", function (index) {
+            deleteTodo(index);
+            updateTodoList();
+        });
         var newElement = document.createElement("div");
         var newContent = document.createTextNode(todoList[todo].title + " " + todoList[todo].description);
         newElement.appendChild(newContent);
+        newElement.appendChild(newDeleteButton);
         todoListDiv.appendChild(newElement);
     }
 };
@@ -32,9 +43,8 @@ var addTodo = function () {
     var inputDescription = document.getElementById("inputDescription").value;
     var inputPlace = document.getElementById("inputPlace").value;
     var inputDate = document.getElementById("inputDate").value;
-    console.log(inputTitle);
-    console.log(inputDate);
     var newTodo = new todo_item(inputTitle, inputDescription, inputPlace, new Date(inputDate));
     todoList.push(newTodo);
+    updateTodoList();
 };
 setInterval(updateTodoList, 1000);
