@@ -9,9 +9,9 @@ var todo_item = /** @class */ (function () {
     return todo_item;
 }());
 var todoList = [];
-function initList() {
+var initList = function () {
     todoList.push(new todo_item("Learn JS", "Create a demo application for my TODO's", "445", new Date(2019, 10, 16)), new todo_item("Lecture Test", "Quick test from the first three lectures", "F6", new Date(2019, 10, 17)));
-}
+};
 initList();
 var updateTodoList = function () {
     var todoListDiv = document.getElementById("todoListView");
@@ -26,5 +26,15 @@ var updateTodoList = function () {
         newElement.appendChild(newContent);
         todoListDiv.appendChild(newElement);
     }
+};
+var addTodo = function () {
+    var inputTitle = document.getElementById("inputTitle").value;
+    var inputDescription = document.getElementById("inputDescription").value;
+    var inputPlace = document.getElementById("inputPlace").value;
+    var inputDate = document.getElementById("inputDate").value;
+    console.log(inputTitle);
+    console.log(inputDate);
+    var newTodo = new todo_item(inputTitle, inputDescription, inputPlace, new Date(inputDate));
+    todoList.push(newTodo);
 };
 setInterval(updateTodoList, 1000);
