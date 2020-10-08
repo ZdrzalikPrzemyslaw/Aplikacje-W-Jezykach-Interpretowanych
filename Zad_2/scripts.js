@@ -9,16 +9,52 @@ var todo_item = /** @class */ (function () {
     return todo_item;
 }());
 var todoList = [];
-var initList = function () {
-    var savedList = window.localStorage.getItem("todos");
-    if (savedList != null) {
-        todoList = JSON.parse(savedList);
+$.ajax({
+    // copy Your bin identifier here. It can be obtained in the dashboard
+    url: 'https://api.jsonbin.io/b/5f7f5a7365b18913fc5ccf2c/latest',
+    type: 'GET',
+    headers: {
+        'secret-key': "$2b$10$NTKfR.Ut9Z8el6x6WakuV.yUvORzT5RI.w3yTnSLcHInw6elnEB3e"
+    },
+    success: function (data) {
+        console.log(data);
+        todoList = data;
+    },
+    error: function (err) {
+        console.log(err.responseJSON);
     }
-    else {
-        todoList.push(new todo_item("Learn JS", "Create a demo application for my TODO's", "445", new Date(2019, 10, 16)), new todo_item("Lecture Test", "Quick test from the first three lectures", "F6", new Date(2019, 10, 17)));
-    }
+});
+var updateJSONbin = function () {
+    $.ajax({
+        url: 'https://api.jsonbin.io/b/5f7f5a7365b18913fc5ccf2c',
+        type: 'PUT',
+        headers: {
+            'secret-key': "$2b$10$NTKfR.Ut9Z8el6x6WakuV.yUvORzT5RI.w3yTnSLcHInw6elnEB3e",
+            'versioning': "false"
+        },
+        contentType: 'application/json',
+        data: JSON.stringify(todoList),
+        success: function (data) {
+            console.log(data);
+        },
+        error: function (err) {
+            console.log(err.responseJSON);
+        }
+    });
 };
-initList();
+// let initList = function () {
+//     let savedList = window.localStorage.getItem("todos");
+//     if (savedList != null) {
+//         todoList = JSON.parse(savedList);
+//     }
+//     else {
+//         todoList.push(
+//             new todo_item("Learn JS", "Create a demo application for my TODO's", "445", new Date(2019, 10, 16)),
+//             new todo_item("Lecture Test", "Quick test from the first three lectures", "F6", new Date(2019, 10, 17))
+//         )
+//     }
+// }
+// initList();
 var updateTodoList = function () {
     var deleteTodo = function (index) {
         todoList.splice(index, 1);
@@ -56,6 +92,6 @@ var addTodo = function () {
     var newTodo = new todo_item(inputTitle, inputDescription, inputPlace, new Date(inputDate));
     todoList.push(newTodo);
     updateTodoList();
-    window.localStorage.setItem("todos", JSON.stringify(todoList));
+    updateJSONbin();
 };
 setInterval(updateTodoList, 1000);
