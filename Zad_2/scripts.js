@@ -28,13 +28,10 @@ var updateTodoList = function () {
     while (todoListDiv.firstChild) {
         todoListDiv.removeChild(todoListDiv.firstChild);
     }
-
     var filterInput = document.getElementById("inputSearch");
     // add all elements
     for (var todo in todoList) {
-        if ((filterInput.value == "") ||
-            (todoList[todo].title.includes(filterInput.value)) ||
-            (todoList[todo].description.includes(filterInput.value))) {
+        if ((filterInput.value == "") || (todoList[todo].title.includes(filterInput.value)) || (todoList[todo].description.includes(filterInput.value))) {
             var newDeleteButton = document.createElement("input");
             newDeleteButton.type = "button";
             newDeleteButton.value = "x";
