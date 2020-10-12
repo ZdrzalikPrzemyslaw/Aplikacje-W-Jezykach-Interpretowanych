@@ -56,10 +56,11 @@ var updateTodoList = function () {
     var filterInput = document.getElementById("inputSearch");
     // add all elements
     var containing_table = document.createElement("table");
-    containing_table.style.width = '100%';
-    containing_table.setAttribute('border', '1');
+    containing_table.className = "table";
     {
-        var tr = containing_table.insertRow();
+        var thead = document.createElement("thead");
+        thead.className = "thead-dark";
+        var tr = document.createElement("tr");
         for (var item in todoList[0]) {
             var theader = document.createElement('th');
             theader.appendChild(document.createTextNode(item));
@@ -68,6 +69,9 @@ var updateTodoList = function () {
         var title_header_remove = document.createElement('th');
         title_header_remove.appendChild(document.createTextNode("remove"));
         tr.appendChild(title_header_remove);
+        thead.appendChild(tr);
+        thead.className = "thead-dark";
+        containing_table.appendChild(thead);
     }
     for (var todo in todoList) {
         if ((filterInput.value == "") || (todoList[todo].title.includes(filterInput.value)) || (todoList[todo].description.includes(filterInput.value))) {
@@ -86,7 +90,8 @@ var updateTodoList = function () {
             td_delete_button.appendChild(newDeleteButton);
         }
     }
-    todoListDiv.appendChild(containing_table);
+    if (todoList.length != 0)
+        todoListDiv.appendChild(containing_table);
 };
 var addTodo = function () {
     var inputTitle = document.getElementById("inputTitle").value;
