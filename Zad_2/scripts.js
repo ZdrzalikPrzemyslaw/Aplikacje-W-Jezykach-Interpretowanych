@@ -73,14 +73,14 @@ var updateTodoList = function () {
         thead.className = "thead-dark";
         containing_table.appendChild(thead);
     }
-    for (var todo in todoList) {
+    var _loop_1 = function (todo) {
         if ((filterInput.value == "") || (todoList[todo].title.includes(filterInput.value)) || (todoList[todo].description.includes(filterInput.value))) {
             var tr = containing_table.insertRow();
             var newDeleteButton = document.createElement("input");
             newDeleteButton.type = "button";
             newDeleteButton.value = "x";
-            newDeleteButton.addEventListener("click", function (index) {
-                deleteTodo(index);
+            newDeleteButton.addEventListener("click", function () {
+                deleteTodo(todoList.indexOf(todo));
             });
             for (var item in todoList[todo]) {
                 var td_title = tr.insertCell();
@@ -89,6 +89,9 @@ var updateTodoList = function () {
             var td_delete_button = tr.insertCell();
             td_delete_button.appendChild(newDeleteButton);
         }
+    };
+    for (var todo in todoList) {
+        _loop_1(todo);
     }
     if (todoList.length != 0)
         todoListDiv.appendChild(containing_table);
