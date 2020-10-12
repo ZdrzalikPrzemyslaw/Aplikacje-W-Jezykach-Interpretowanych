@@ -58,10 +58,20 @@ var updateTodoList = function () {
     var containing_table = document.createElement("table");
     containing_table.style.width = '100%';
     containing_table.setAttribute('border', '1');
-    var tbdy = document.createElement('tbody');
+    {
+        var tr = containing_table.insertRow();
+        for (var item in todoList[0]) {
+            var theader = document.createElement('th');
+            theader.appendChild(document.createTextNode(item));
+            tr.appendChild(theader);
+        }
+        var title_header_remove = document.createElement('th');
+        title_header_remove.appendChild(document.createTextNode("remove"));
+        tr.appendChild(title_header_remove);
+    }
     for (var todo in todoList) {
         if ((filterInput.value == "") || (todoList[todo].title.includes(filterInput.value)) || (todoList[todo].description.includes(filterInput.value))) {
-            var tr = document.createElement('tr');
+            var tr = containing_table.insertRow();
             var newDeleteButton = document.createElement("input");
             newDeleteButton.type = "button";
             newDeleteButton.value = "x";
@@ -69,20 +79,14 @@ var updateTodoList = function () {
                 deleteTodo(index);
             });
             for (var item in todoList[todo]) {
-                var td = document.createElement('td');
-                td.appendChild(document.createTextNode(item));
-                tr.appendChild(td);
+                var td_title = tr.insertCell();
+                td_title.appendChild(document.createTextNode(todoList[todo][item]));
             }
-            var td_delete_button = document.createElement('td');
+            var td_delete_button = tr.insertCell();
             td_delete_button.appendChild(newDeleteButton);
-            tr.appendChild(td_delete_button);
-            tbdy.appendChild(tr);
         }
     }
-    containing_table.appendChild(tbdy);
-    if (tbdy.firstChild) {
-        todoListDiv.appendChild(containing_table);
-    }
+    todoListDiv.appendChild(containing_table);
 };
 var addTodo = function () {
     var inputTitle = document.getElementById("inputTitle").value;
