@@ -42,22 +42,11 @@ var updateJSONbin = function () {
         }
     });
 };
-// let initList = function () {
-//     let savedList = window.localStorage.getItem("todos");
-//     if (savedList != null) {
-//         todoList = JSON.parse(savedList);
-//     }
-//     else {
-//         todoList.push(
-//             new todo_item("Learn JS", "Create a demo application for my TODO's", "445", new Date(2019, 10, 16)),
-//             new todo_item("Lecture Test", "Quick test from the first three lectures", "F6", new Date(2019, 10, 17))
-//         )
-//     }
-// }
-// initList();
 var updateTodoList = function () {
     var deleteTodo = function (index) {
         todoList.splice(index, 1);
+        updateTodoList();
+        updateJSONbin();
     };
     var todoListDiv = document.getElementById("todoListView");
     //remove all elements
@@ -66,22 +55,33 @@ var updateTodoList = function () {
     }
     var filterInput = document.getElementById("inputSearch");
     // add all elements
+    var containing_table = document.createElement("table");
+    containing_table.style.width = '100%';
+    containing_table.setAttribute('border', '1');
+    var tbdy = document.createElement('tbody');
     for (var todo in todoList) {
         if ((filterInput.value == "") || (todoList[todo].title.includes(filterInput.value)) || (todoList[todo].description.includes(filterInput.value))) {
+            var tr = document.createElement('tr');
             var newDeleteButton = document.createElement("input");
             newDeleteButton.type = "button";
             newDeleteButton.value = "x";
             newDeleteButton.addEventListener("click", function (index) {
                 deleteTodo(index);
-                updateTodoList();
             });
-            var newElement = document.createElement("p");
-            var newContent = document.createTextNode(todoList[todo].title + " " +
-                todoList[todo].description);
-            newElement.appendChild(newContent);
-            todoListDiv.appendChild(newElement);
-            newElement.appendChild(newDeleteButton);
+            for (var item in todoList[todo]) {
+                var td = document.createElement('td');
+                td.appendChild(document.createTextNode(item));
+                tr.appendChild(td);
+            }
+            var td_delete_button = document.createElement('td');
+            td_delete_button.appendChild(newDeleteButton);
+            tr.appendChild(td_delete_button);
+            tbdy.appendChild(tr);
         }
+    }
+    containing_table.appendChild(tbdy);
+    if (tbdy.firstChild) {
+        todoListDiv.appendChild(containing_table);
     }
 };
 var addTodo = function () {
