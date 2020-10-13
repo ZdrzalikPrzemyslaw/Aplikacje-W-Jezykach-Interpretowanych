@@ -58,24 +58,15 @@ var updateTodoList = function () {
     var filterInputDate2 = $("#inputSearchDate2")[0];
     var dateStart = new Date(filterInputDate1.value);
     var dateEnd = new Date(filterInputDate2.value);
-    console.log(filterInputDate1.value);
-    // add all elements
+    // add all elementsD
     var containing_table = $('<table>').addClass("table");
     {
-        var thead = document.createElement("thead");
-        thead.className = "thead-dark";
-        var tr = document.createElement("tr");
+        var thead = $('<thead></thead>').addClass("thead-dark").appendTo(containing_table);
+        var tr = $('<tr></tr>').appendTo(thead);
         for (var item in todoList[0]) {
-            var theader = document.createElement('th');
-            theader.appendChild(document.createTextNode(item));
-            tr.appendChild(theader);
+            $('<th></th>').appendTo(tr).text(item);
         }
-        var title_header_remove = document.createElement('th');
-        title_header_remove.appendChild(document.createTextNode("remove"));
-        tr.appendChild(title_header_remove);
-        thead.appendChild(tr);
-        thead.className = "thead-dark";
-        containing_table.append(thead);
+        $('<th></th>').appendTo(tr).text("remove");
     }
     var _loop_1 = function (todo) {
         if ((filterInputDesc.value == "") ||
@@ -85,20 +76,18 @@ var updateTodoList = function () {
                 || ((dateStart <= new Date(todoList[todo].dueDate)) && (filterInputDate2.value == ""))
                 || ((dateEnd >= new Date(todoList[todo].dueDate)) && (filterInputDate1.value == ""))
                 || ((dateEnd >= new Date(todoList[todo].dueDate)) && (dateStart <= new Date(todoList[todo].dueDate)))) {
-                var tr = document.createElement("tr");
+                var tr = $('<tr></tr>').appendTo(containing_table);
                 containing_table.append(tr);
-                var newDeleteButton = document.createElement("input");
-                newDeleteButton.type = "button";
-                newDeleteButton.value = "x";
-                newDeleteButton.addEventListener("click", function () {
-                    deleteTodo(todoList.indexOf(todo));
+                var newDeleteButton = $('<input></input>').attr({
+                    type: 'button',
+                    value: 'x'
                 });
+                var onClickFun = function () { deleteTodo(todoList.indexOf(todo)); };
+                newDeleteButton.click(onClickFun);
                 for (var item in todoList[todo]) {
-                    var td_title = tr.insertCell();
-                    td_title.appendChild(document.createTextNode(todoList[todo][item]));
+                    $('<td></td>').appendTo(tr).text(todoList[todo][item]);
                 }
-                var td_delete_button = tr.insertCell();
-                td_delete_button.appendChild(newDeleteButton);
+                $('<td></td>').appendTo(tr).append(newDeleteButton);
             }
         }
     };
