@@ -58,7 +58,7 @@ var updateTodoList = function () {
     var filterInputDate2 = document.getElementById("inputSearchDate2");
     var dateStart = new Date(filterInputDate1.value);
     var dateEnd = new Date(filterInputDate2.value);
-    console.log(dateStart);
+    console.log(filterInputDate1.value);
     // add all elements
     var containing_table = document.createElement("table");
     containing_table.className = "table";
@@ -80,22 +80,26 @@ var updateTodoList = function () {
     }
     var _loop_1 = function (todo) {
         if ((filterInputDesc.value == "") ||
-            ((!(Object.prototype.toString.call(dateStart) === '[object Date]')) &&
-                (!(Object.prototype.toString.call(dateEnd) === '[object Date]'))) ||
-            (todoList[todo].title.includes(filterInputDesc.value)) || (todoList[todo].description.includes(filterInputDesc.value))) {
-            var tr = containing_table.insertRow();
-            var newDeleteButton = document.createElement("input");
-            newDeleteButton.type = "button";
-            newDeleteButton.value = "x";
-            newDeleteButton.addEventListener("click", function () {
-                deleteTodo(todoList.indexOf(todo));
-            });
-            for (var item in todoList[todo]) {
-                var td_title = tr.insertCell();
-                td_title.appendChild(document.createTextNode(todoList[todo][item]));
+            (todoList[todo].title.includes(filterInputDesc.value)) ||
+            (todoList[todo].description.includes(filterInputDesc.value))) {
+            if ((filterInputDate1.value == "") && (filterInputDate2.value == "")
+                || ((dateStart <= new Date(todoList[todo].dueDate)) && (filterInputDate2.value == ""))
+                || ((dateEnd >= new Date(todoList[todo].dueDate)) && (filterInputDate1.value == ""))
+                || ((dateEnd >= new Date(todoList[todo].dueDate)) && (dateStart <= new Date(todoList[todo].dueDate)))) {
+                var tr = containing_table.insertRow();
+                var newDeleteButton = document.createElement("input");
+                newDeleteButton.type = "button";
+                newDeleteButton.value = "x";
+                newDeleteButton.addEventListener("click", function () {
+                    deleteTodo(todoList.indexOf(todo));
+                });
+                for (var item in todoList[todo]) {
+                    var td_title = tr.insertCell();
+                    td_title.appendChild(document.createTextNode(todoList[todo][item]));
+                }
+                var td_delete_button = tr.insertCell();
+                td_delete_button.appendChild(newDeleteButton);
             }
-            var td_delete_button = tr.insertCell();
-            td_delete_button.appendChild(newDeleteButton);
         }
     };
     for (var todo in todoList) {
