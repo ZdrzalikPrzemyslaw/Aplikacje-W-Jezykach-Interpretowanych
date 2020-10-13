@@ -48,20 +48,19 @@ var updateTodoList = function () {
         updateTodoList();
         updateJSONbin();
     };
-    var todoListDiv = document.getElementById("todoListView");
+    var todoListView = $("#todoListView")[0];
     //remove all elements
-    while (todoListDiv.firstChild) {
-        todoListDiv.removeChild(todoListDiv.firstChild);
+    while (todoListView.firstChild) {
+        todoListView.removeChild(todoListView.firstChild);
     }
-    var filterInputDesc = document.getElementById("inputSearch");
-    var filterInputDate1 = document.getElementById("inputSearchDate1");
-    var filterInputDate2 = document.getElementById("inputSearchDate2");
+    var filterInputDesc = $("#inputSearch")[0];
+    var filterInputDate1 = $("#inputSearchDate1")[0];
+    var filterInputDate2 = $("#inputSearchDate2")[0];
     var dateStart = new Date(filterInputDate1.value);
     var dateEnd = new Date(filterInputDate2.value);
     console.log(filterInputDate1.value);
     // add all elements
-    var containing_table = document.createElement("table");
-    containing_table.className = "table";
+    var containing_table = $('<table>').addClass("table");
     {
         var thead = document.createElement("thead");
         thead.className = "thead-dark";
@@ -76,7 +75,7 @@ var updateTodoList = function () {
         tr.appendChild(title_header_remove);
         thead.appendChild(tr);
         thead.className = "thead-dark";
-        containing_table.appendChild(thead);
+        containing_table.append(thead);
     }
     var _loop_1 = function (todo) {
         if ((filterInputDesc.value == "") ||
@@ -86,7 +85,8 @@ var updateTodoList = function () {
                 || ((dateStart <= new Date(todoList[todo].dueDate)) && (filterInputDate2.value == ""))
                 || ((dateEnd >= new Date(todoList[todo].dueDate)) && (filterInputDate1.value == ""))
                 || ((dateEnd >= new Date(todoList[todo].dueDate)) && (dateStart <= new Date(todoList[todo].dueDate)))) {
-                var tr = containing_table.insertRow();
+                var tr = document.createElement("tr");
+                containing_table.append(tr);
                 var newDeleteButton = document.createElement("input");
                 newDeleteButton.type = "button";
                 newDeleteButton.value = "x";
@@ -106,13 +106,14 @@ var updateTodoList = function () {
         _loop_1(todo);
     }
     if (todoList.length != 0)
-        todoListDiv.appendChild(containing_table);
+        containing_table.appendTo(todoListView);
+    // todoListView.appendChild(containing_table);
 };
 var addTodo = function () {
-    var inputTitle = document.getElementById("inputTitle").value;
-    var inputDescription = document.getElementById("inputDescription").value;
-    var inputPlace = document.getElementById("inputPlace").value;
-    var inputDate = document.getElementById("inputDate").value;
+    var inputTitle = $("#inputTitle")[0].value;
+    var inputDescription = $("#inputDescription")[0].value;
+    var inputPlace = $("#inputPlace")[0].value;
+    var inputDate = $("#inputDate")[0].value;
     var newTodo = new todo_item(inputTitle, inputDescription, inputPlace, new Date(inputDate));
     todoList.push(newTodo);
     updateTodoList();
