@@ -53,7 +53,12 @@ var updateTodoList = function () {
     while (todoListDiv.firstChild) {
         todoListDiv.removeChild(todoListDiv.firstChild);
     }
-    var filterInput = document.getElementById("inputSearch");
+    var filterInputDesc = document.getElementById("inputSearch");
+    var filterInputDate1 = document.getElementById("inputSearchDate1");
+    var filterInputDate2 = document.getElementById("inputSearchDate2");
+    var dateStart = new Date(filterInputDate1.value);
+    var dateEnd = new Date(filterInputDate2.value);
+    console.log(dateStart);
     // add all elements
     var containing_table = document.createElement("table");
     containing_table.className = "table";
@@ -74,7 +79,10 @@ var updateTodoList = function () {
         containing_table.appendChild(thead);
     }
     var _loop_1 = function (todo) {
-        if ((filterInput.value == "") || (todoList[todo].title.includes(filterInput.value)) || (todoList[todo].description.includes(filterInput.value))) {
+        if ((filterInputDesc.value == "") ||
+            ((!(Object.prototype.toString.call(dateStart) === '[object Date]')) &&
+                (!(Object.prototype.toString.call(dateEnd) === '[object Date]'))) ||
+            (todoList[todo].title.includes(filterInputDesc.value)) || (todoList[todo].description.includes(filterInputDesc.value))) {
             var tr = containing_table.insertRow();
             var newDeleteButton = document.createElement("input");
             newDeleteButton.type = "button";
