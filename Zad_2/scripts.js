@@ -77,7 +77,6 @@ var updateTodoList = function () {
                 || ((dateEnd >= new Date(todoList[todo].dueDate)) && (filterInputDate1.value == ""))
                 || ((dateEnd >= new Date(todoList[todo].dueDate)) && (dateStart <= new Date(todoList[todo].dueDate)))) {
                 var tr = $('<tr></tr>').appendTo(containing_table);
-                containing_table.append(tr);
                 var newDeleteButton = $('<input></input>').attr({
                     type: 'button',
                     value: 'x'
@@ -85,7 +84,13 @@ var updateTodoList = function () {
                 var onClickFun = function () { deleteTodo(todoList.indexOf(todo)); };
                 newDeleteButton.click(onClickFun);
                 for (var item in todoList[todo]) {
-                    $('<td></td>').appendTo(tr).text(todoList[todo][item]);
+                    if (Date.parse(todoList[todo][item])) {
+                        var date = new Date(todoList[todo][item]);
+                        $('<td></td>').appendTo(tr).text(date.toDateString());
+                    }
+                    else {
+                        $('<td></td>').appendTo(tr).text(todoList[todo][item]);
+                    }
                 }
                 $('<td></td>').appendTo(tr).append(newDeleteButton);
             }
