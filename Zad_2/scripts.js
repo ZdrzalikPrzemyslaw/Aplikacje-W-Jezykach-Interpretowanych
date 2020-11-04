@@ -41,12 +41,13 @@ let updateJSONbin = function () {
         }
     });
 };
+let deleteTodo = function (index) {
+    console.log(index);
+    todoList.splice(index, 1);
+    updateTodoList();
+    updateJSONbin();
+};
 let updateTodoList = function () {
-    let deleteTodo = function (index) {
-        todoList.splice(index, 1);
-        updateTodoList();
-        updateJSONbin();
-    };
     let todoListView = $("#todoListView")[0];
     //remove all elements
     while (todoListView.firstChild) {
@@ -80,10 +81,11 @@ let updateTodoList = function () {
                     type: 'button',
                     value: 'x',
                 });
-                let onClickFun = function () { deleteTodo(todoList.indexOf(todo)); };
+                console.log(todo);
+                let onClickFun = function () { deleteTodo(todo); };
                 newDeleteButton.click(onClickFun);
                 for (let item in todoList[todo]) {
-                    if (Date.parse(todoList[todo][item])) {
+                    if (item == "dueDate") {
                         let date = new Date(todoList[todo][item]);
                         $('<td></td>').appendTo(tr).text(date.toDateString());
                     }
