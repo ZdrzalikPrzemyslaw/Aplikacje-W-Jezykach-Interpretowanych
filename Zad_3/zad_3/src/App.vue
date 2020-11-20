@@ -1,18 +1,21 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
-    <MovieTable msg="XD"/>
+    <movie-table/>
+    <filmy-wg-gatunku/>
   </div>
 </template>
 
 <script>
+import FilmyWgGatunku from './components/FilmyWgGatunku.vue'
 import MovieTable from './components/MovieTable.vue'
 
 
 export default {
   name: 'App',
   components: {
-    MovieTable
+    MovieTable,
+    FilmyWgGatunku
   }
 }
 </script>

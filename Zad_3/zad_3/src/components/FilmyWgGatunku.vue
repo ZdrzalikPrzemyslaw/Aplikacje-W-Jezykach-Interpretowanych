@@ -18,7 +18,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="movie in this.get_movies()" :key="movie.title">
+        <tr v-for="movie in this.get_movies(this.genres[0])" :key="movie.title">
           <td>
             {{ movie.title }}
           </td>
@@ -39,26 +39,36 @@
 
 <script>
 import json from "../json/movies.json";
+import _ from "underscore";
 
 export default {
-  name: "MovieTable",
+  name: "FilmyWgGatunku",
   data() {
     return {
       movies: json,
-      movie_count: 10,
+      movie_count: 100,
       current_start_movie: 0,
+      genres: ["Comedy"],
     };
   },
   methods: {
-    get_movies: function() {
-      return this.movies.slice(
-        this.current_start_movie,
-        this.current_start_movie + this.movie_count
-      );
+    get_movies: function(genre) {
+      let list = _.filter(this.movies, function(film) {
+        for (const g in film.genres) {
+                if (film.genres[g] === genre) {
+                    return true;
+                }
+        }
+        return false;
+      })
+      list = _.sortBy(list, function(film) {
+          return film.title
+      })
+      return list.slice(0, this.movie_count);
     },
   },
   props: {
-      
+
   },
 };
 </script>
