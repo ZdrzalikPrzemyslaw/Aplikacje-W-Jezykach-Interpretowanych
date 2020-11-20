@@ -2,6 +2,7 @@
   <div class="my_filter">
     <input
       v-model="title"
+      class="form-control"
       placeholder="Podaj tytuł lub fragment tytułu filmu"
     />
     <input
@@ -35,17 +36,18 @@ export default {
   },
   methods: {
     filter: function() {
+      let self = this;
       let list = _.filter(this.movies, function(film) {
         if (
-          (film.title.toLowerCase().includes(self.title.toLowerCase()) ||
-            self.title === "") &&
-          self.yearFrom === "" &&
-          self.yearTo === ""
+          (self.title === "" ||
+            film.title.toLowerCase().includes(self.title.toLowerCase())) &&
+          (self.yearFrom === "" || self.yearFrom <= film.year) &&
+          (self.yearTo === "" || self.yearTo >= film.year)
         ) {
           for (const key in film.cast) {
             if (
-              film.cast[key].toLowerCase() === self.cast.toLowerCase() ||
-              self.cast === ""
+              self.cast === "" ||
+              film.cast[key].toLowerCase() === self.cast.toLowerCase()
             ) {
               return true;
             }

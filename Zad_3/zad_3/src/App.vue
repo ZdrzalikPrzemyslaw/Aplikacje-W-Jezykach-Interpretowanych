@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
-    <filtrowanie/>
-    <movie-table/>
+    <filtrowanie @search-event="handleAppEvent"/>
+    <movie-table :dataArray='eventData'/>
     <filmy-wg-gatunku/>
     <filmy-wg-obsady/>
   </div>
@@ -13,7 +13,7 @@ import FilmyWgGatunku from './components/FilmyWgGatunku.vue'
 import FilmyWgObsady from './components/FilmyWgObsady.vue'
 import Filtrowanie from './components/Filtrowanie.vue'
 import MovieTable from './components/MovieTable.vue'
-
+import movies from './json/movies.json'
 
 export default {
   name: 'App',
@@ -22,7 +22,16 @@ export default {
     FilmyWgGatunku,
     FilmyWgObsady,
     Filtrowanie
-  }
+  },
+  data: function() {
+    return {
+      eventData: movies
+    }
+  }, methods: {
+    handleAppEvent: function(data) {
+      this.eventData = data;
+    }
+  },
 }
 </script>
 

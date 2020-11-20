@@ -39,22 +39,19 @@
 </template>
 
 <script>
-import json from "../json/movies.json";
 import _ from "underscore";
-
 
 export default {
   name: "MovieTable",
   data() {
     return {
-      movies: json,
       movie_count: 10,
       current_start_movie: 0,
     };
   },
   methods: {
     get_movies: function() {
-        let filmy = _.sortBy(this.movies, function(film) {
+      let filmy = _.sortBy(this.dataArray, function(film) {
         return film.title;
       });
       return filmy.slice(
@@ -62,12 +59,17 @@ export default {
         this.current_start_movie + this.movie_count
       );
     },
-    next : function() {
-        this.current_start_movie += this.movie_count;
-    }
+    next: function() {
+      this.current_start_movie += this.movie_count;
+    },
   },
   props: {
-
+    dataArray: Array,
+  },
+  watch: {
+    dataArray: function() {
+      this.current_start_movie = 0;
+    },
   },
 };
 </script>
