@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Zadanie Vue+Underscore - Wariant I</title>
+  
+  <!--Bootstrap-->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  
+  <!--Vue.js-->
+  <script src="https://unpkg.com/vue"></script>
+
+  <!--Underscore-->
+  <script src=https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore.js></script>
+</head>
+<body>
+  
+  <div id="app">
+    <div class="container">
+	<h1><em class="task">
+    Uwaga: przy filtrowaniu danych i przetwarzaniu kolekcji należy korzystać z biblioteki Underscore (dołączona) lub Lodash (dołączyć zamiast underscore) 
+  </em></h1>
+	<h3><em class="task">
+	Wykonanie tego wariantu zadania jest na ocenę max. 3. W celu uzyskania wyższej oceny
+	należy wykonać wariant II. Ten wariant można w takiej sytuacji pominąć.
+	</em><h3>
+      <h1>Baza filmów</h1>
+      <form>
+        <div class="form-group">
+            <label for=inputTitle>Tytuł</label>
+            <input type="text" id=inputTitle class="form-control" placeholder="Podaj tytuł lub fragment tytułu filmu"/>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label" for="inputProductionFrom">Rok produkcji od:</label>
+          <div class="col-sm-8">
+              <input type="text" id=inputProductionFrom class="form-control"  placeholder="Liczba naturalna z przedziału 1900-2019"/>
+          </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label" for="inputProductionTo">Rok produkcji do:</label>
+            <div class="col-sm-8">
+                <input type="text" id=inputProductionTo class="form-control" placeholder="Liczba naturalna z przedziału 1900-2019"/>
+            </div>
+        </div>
+        <div class="form-group">
+          <label for="inputCast">Obsada</label>
+          <input type="text" id="inputCast" class="form-control" placeholder="Imię i nazwisko"/>
+        </div>
+        <div class="form-group row">
+            <input type="button" class="btn btn-info col-sm-12" value="Szukaj"/>
+        </div>
+      </form>
+      <em class="task">Obsłuż filtrowanie listy filmów wg wszystkich pól wskazanych wyżej</em>
+      <table class="table-condensed table-hover">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Production Year</th>
+            <th>Cast</th>
+            <th>Genres</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="movie in movies">
+            <td>{{movie.title}}</td>
+            <td>{{movie.year}}</td>
+            <td>{{movie.cast}}</td>
+            <td>{{movie.genres}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <em class="task">W tabeli należy poprawić wyświetlanie pól z obsadą i gatunkiem. Należy opuścić nawiasy kwadratowe</em>
+      
+      <h1>Filmy wg gatunku</h1>
+      <em class="task">
+        Należy wyświetlić filmografię wg gatunku w formie listy, np.
+        <p>Animated</p>
+        <ol>
+          <li>Cheese Chasers</li>
+          <li>Southbound Duckling</li>
+        </ol>
+        <p>Comedy</p>
+        <ol>
+          <li>Special Delivery</li>
+        </ol>
+        Brakujące dane obsłużyć wg uznania.
+      </em>
+
+      <h1>Filmy wg obsady</h1>
+      <em class="task">
+        Należy wyświetlić filmografię wg obsady w formie jak w poprzednim punkcie. Jeśli jest kilku aktorów w jednym filmie, należy wyświetlić ich oddzielnie.
+      </em>
+    </div>
+  </div>
+  <script type="module">
+    var app = new Vue({
+      el: '#app',
+      data: {
+        movies: [
+          {"title":"Chained for Life","year":1951,"cast":["Hilton Twins"],"genres":[]},
+          {"title":"Cheese Chasers","year":1951,"cast":["Looney Tunes"],"genres":["Animated"]},
+          {"title":"Chicago Calling","year":1951,"cast":["Dan Duryea","Mary Anderson"],"genres":["Noir"]},
+          {"title":"China Corsair","year":1951,"cast":["Jon Hall","Ernest Borgnine"],"genres":["Adventure"]},
+          {"title":"So This Is Paris","year":1955,"cast":["Tony Curtis","Gloria DeHaven"],"genres":["Musical"]},
+          {"title":"Soldier of Fortune","year":1955,"cast":["Clark Gable","Susan Hayward"],"genres":["Drama"]},
+          {"title":"Son of Sinbad","year":1955,"cast":["Dale Robertson","Sally Forrest","Vincent Price"],"genres":["Adventure"]},
+          {"title":"Southbound Duckling","year":1955,"cast":["Tom and Jerry"],"genres":["Animated"]},
+          {"title":"Special Delivery","year":1955,"cast":["Joseph Cotten","Eva Bartok"],"genres":["Comedy"]}
+          ],
+      },
+    })
+  </script>
+
+  <style type="text/css">
+    .task {
+      color:red;
+    }
+
+    .task-done {
+      color:lightgreen;
+    }
+  </style>
+</body>
+</html>
