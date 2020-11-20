@@ -1,8 +1,10 @@
 <template>
   <div class="my_list">
-    <h1>Filmy wg gatunku</h1>
+    <div>
+      <h1>Filmy wg obsady</h1>
+    </div>
     <ol>
-      <template v-for="genre in genres">
+      <template v-for="genre in cast">
         <div v-for="(movie, index, key) in get_movies(genre)" :key="key">
           <h2 v-if="index === 0">{{ genre }}</h2>
           {{ index + 1 }}. {{ movie.title }}
@@ -17,20 +19,33 @@ import json from "../json/movies.json";
 import _ from "underscore";
 
 export default {
-  name: "FilmyWgGatunku",
+  name: "FilmyWgObsady",
   data() {
     return {
       movies: json,
       movie_count: 100,
       current_start_movie: 0,
-      genres: ["Comedy", "Crime", "Romance", "Animated", "Family"],
+      cast: [
+        "James McAvoy",
+        "Emily Blunt",
+        "Johnny Depp",
+        "Chiwetel Ejiofor",
+        "Mary J. Blige",
+        "Michael Caine",
+        "Maggie Smith",
+        "Ashley Jensen",
+        "Matt Lucas",
+        "Stephen Merchant",
+        "Julie Walters",
+        "Richard Wilson",
+      ],
     };
   },
   methods: {
     get_movies: function(genre) {
       let list = _.filter(this.movies, function(film) {
-        for (const g in film.genres) {
-          if (film.genres[g] === genre) {
+        for (const g in film.cast) {
+          if (film.cast[g] === genre) {
             return true;
           }
         }

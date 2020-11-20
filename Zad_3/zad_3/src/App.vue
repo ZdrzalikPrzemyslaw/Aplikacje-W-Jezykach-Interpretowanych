@@ -3,11 +3,13 @@
     <img alt="Vue logo" src="./assets/logo.png">
     <movie-table/>
     <filmy-wg-gatunku/>
+    <filmy-wg-obsady/>
   </div>
 </template>
 
 <script>
 import FilmyWgGatunku from './components/FilmyWgGatunku.vue'
+import FilmyWgObsady from './components/FilmyWgObsady.vue'
 import MovieTable from './components/MovieTable.vue'
 
 
@@ -15,7 +17,8 @@ export default {
   name: 'App',
   components: {
     MovieTable,
-    FilmyWgGatunku
+    FilmyWgGatunku,
+    FilmyWgObsady
   }
 }
 </script>
