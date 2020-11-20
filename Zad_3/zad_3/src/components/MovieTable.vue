@@ -34,11 +34,14 @@
         </tr>
       </tbody>
     </table>
+    <button type="button" v-on:click="next">Następne</button>
   </div>
 </template>
 
 <script>
 import json from "../json/movies.json";
+import _ from "underscore";
+
 
 export default {
   name: "MovieTable",
@@ -51,14 +54,20 @@ export default {
   },
   methods: {
     get_movies: function() {
-      return this.movies.slice(
+        let filmy = _.sortBy(this.movies, function(film) {
+        return film.title;
+      });
+      return filmy.slice(
         this.current_start_movie,
         this.current_start_movie + this.movie_count
       );
     },
+    next : function() {
+        this.current_start_movie += this.movie_count;
+    }
   },
   props: {
-      
+
   },
 };
 </script>

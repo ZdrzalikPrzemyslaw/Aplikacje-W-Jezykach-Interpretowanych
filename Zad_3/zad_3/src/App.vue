@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
+    <filtrowanie/>
     <movie-table/>
     <filmy-wg-gatunku/>
     <filmy-wg-obsady/>
@@ -10,6 +11,7 @@
 <script>
 import FilmyWgGatunku from './components/FilmyWgGatunku.vue'
 import FilmyWgObsady from './components/FilmyWgObsady.vue'
+import Filtrowanie from './components/Filtrowanie.vue'
 import MovieTable from './components/MovieTable.vue'
 
 
@@ -18,7 +20,8 @@ export default {
   components: {
     MovieTable,
     FilmyWgGatunku,
-    FilmyWgObsady
+    FilmyWgObsady,
+    Filtrowanie
   }
 }
 </script>
