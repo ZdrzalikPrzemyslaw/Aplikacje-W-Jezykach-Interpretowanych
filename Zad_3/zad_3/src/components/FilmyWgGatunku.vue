@@ -1,39 +1,13 @@
 <template>
-  <div class="my_table">
-    <table>
-      <thead>
-        <tr>
-          <th>
-            Title
-          </th>
-          <th>
-            Production Year
-          </th>
-          <th>
-            Cast
-          </th>
-          <th>
-            Genres
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="movie in this.get_movies(this.genres[0])" :key="movie.title">
-          <td>
-            {{ movie.title }}
-          </td>
-          <td>
-            {{ movie.year }}
-          </td>
-          <td>
-            {{ movie.cast }}
-          </td>
-          <td>
-            {{ movie.genres }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="my_list">
+    <ol>
+      <template v-for="genre in genres">
+        <div v-for="(movie,index, key) in get_movies(genre)" :key="key">
+            <h1 v-if="index ===0"> {{genre}}</h1>
+          {{index + 1}}. {{ movie.title }}
+        </div>
+      </template>   
+    </ol>
   </div>
 </template>
 
@@ -48,28 +22,26 @@ export default {
       movies: json,
       movie_count: 100,
       current_start_movie: 0,
-      genres: ["Comedy"],
+      genres: ["Comedy", "Crime", "Romance", "Animated", "Family"],
     };
   },
   methods: {
     get_movies: function(genre) {
       let list = _.filter(this.movies, function(film) {
         for (const g in film.genres) {
-                if (film.genres[g] === genre) {
-                    return true;
-                }
+          if (film.genres[g] === genre) {
+            return true;
+          }
         }
         return false;
-      })
+      });
       list = _.sortBy(list, function(film) {
-          return film.title
-      })
+        return film.title;
+      });
       return list.slice(0, this.movie_count);
     },
   },
-  props: {
-
-  },
+  props: {},
 };
 </script>
 
