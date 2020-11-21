@@ -3,34 +3,18 @@
     <table>
       <thead>
         <tr>
-          <th>
-            Title
-          </th>
-          <th>
-            Production Year
-          </th>
-          <th>
-            Cast
-          </th>
-          <th>
-            Genres
-          </th>
+          <th>Title</th>
+          <th>Production Year</th>
+          <th>Cast</th>
+          <th>Genres</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="movie in this.get_movies()" :key="movie.title">
-          <td>
-            {{ movie.title }}
-          </td>
-          <td>
-            {{ movie.year }}
-          </td>
-          <td>
-            {{ movie.cast }}
-          </td>
-          <td>
-            {{ movie.genres }}
-          </td>
+          <td>{{ movie.title }}</td>
+          <td>{{ movie.year }}</td>
+          <td>{{ movie.cast.join(", ") }}</td>
+          <td>{{ movie.genres.join(", ") }}</td>
         </tr>
       </tbody>
     </table>

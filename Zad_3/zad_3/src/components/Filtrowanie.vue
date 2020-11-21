@@ -44,12 +44,15 @@ export default {
           (self.yearFrom === "" || self.yearFrom <= film.year) &&
           (self.yearTo === "" || self.yearTo >= film.year)
         ) {
-          for (const key in film.cast) {
-            if (
-              self.cast === "" ||
-              film.cast[key].toLowerCase() === self.cast.toLowerCase()
-            ) {
-              return true;
+          if (self.cast === "") {
+            return true;
+          } else {
+            for (const key in film.cast) {
+              if (
+                film.cast[key].toLowerCase().includes(self.cast.toLowerCase())
+              ) {
+                return true;
+              }
             }
           }
         }

@@ -7,7 +7,7 @@
       <template v-for="genre in cast">
         <div v-for="(movie, index, key) in get_movies(genre)" :key="key">
           <h2 v-if="index === 0">{{ genre }}</h2>
-          {{ index + 1 }}. {{ movie.title }}
+          {{ movie.title }}
         </div>
       </template>
     </ol>
