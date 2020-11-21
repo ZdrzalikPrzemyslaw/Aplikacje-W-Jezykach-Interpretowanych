@@ -25,20 +25,7 @@ export default {
       movies: json,
       movie_count: 100,
       current_start_movie: 0,
-      cast: [
-        "James McAvoy",
-        "Emily Blunt",
-        "Johnny Depp",
-        "Chiwetel Ejiofor",
-        "Mary J. Blige",
-        "Michael Caine",
-        "Maggie Smith",
-        "Ashley Jensen",
-        "Matt Lucas",
-        "Stephen Merchant",
-        "Julie Walters",
-        "Richard Wilson",
-      ],
+      cast: [],
     };
   },
   methods: {
@@ -56,6 +43,28 @@ export default {
       });
       return list.slice(0, this.movie_count);
     },
+    get_cast: function() {
+      let list = [];
+      for (const c in this.movies) {
+        for (const g in this.movies[c].cast) {
+          if (!list.includes(this.movies[c].cast[g])) {
+            list.push(this.movies[c].cast[g]);
+          }
+        }
+      }
+      this.cast = list;
+    },
+    get_100_random_movies: function() {
+      let result = [];
+      for (let i = 0; i < this.movie_count; i++) {
+        result.push(this.movies[Math.floor(Math.random() * this.movies.length)])
+      }
+      return result;
+    },
+  },
+  created() {
+    this.movies = this.get_100_random_movies();
+    this.get_cast();
   },
   props: {},
 };
